@@ -1,4 +1,4 @@
-# SampleChannelApp
+# SampleCrmApp
 
 This project is a sample of using [DaVinci API](https://apidocs.contactcanvas.com/) to integrate a CRM(salesforce) into the [DaVinci Platform](https://www.contactcanvas.com/). This project was original generated with [Create React App](https://github.com/facebook/create-react-app).
 
