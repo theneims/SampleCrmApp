@@ -1,4 +1,18 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SampleChannelApp
+
+This project is a sample of using [DaVinci API](https://apidocs.contactcanvas.com/) to integrate a CRM(salesforce) into the [DaVinci Platform](https://www.contactcanvas.com/). This project was original generated with [Create React App](https://github.com/facebook/create-react-app).
+
+This project implements two important features for CRM apps. Screenpop, opening matching records when receiving a phone call, and click to dial, when a phone number is clicked in CRM then start a outbound call. The important files are [App.js](src/App.js) and [bridge.js](public/bridge.js).
+
+To test run the project you need a salesforce organization. If you do not have one you can create a free developer org [here](https://developer.salesforce.com/signup). After that you will have to install and setup the DaVinci managed package, details for this can be found in the setup tab of the Salesforce app in [DaVinci Creators Studio](https://studio.contactcanvas.com).
+
+After the salesforce org is setup you can run the project with `npm start` then in [Creators Studio](https://studio.contactcanvas.com) create an app with the URL pointing to you local server, http://localhost:3000/ by default, and the position set to 'Center(no tabs)'. Now you are ready to test!
+
+Note that:
+- You will have to 'Load Unsafe Scripts' since this app is http and salesforce wants everything to be https
+    - In chrome this is a shield icon on the right side of the navbar
+- This app only works with salesforce classic(e.g. not compatible with lightning)
+
 
 ## Available Scripts
 
