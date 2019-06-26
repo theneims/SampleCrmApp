@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { initializeComplete, loadBridgeScripts, registerOnInteraction, clickToDial } from '@amc-technology/davinci-api';
-
+import {
+  initializeComplete,
+  loadBridgeScripts,
+  registerOnInteraction,
+  clickToDial,
+  setAppHeight
+} from '@amc-technology/davinci-api';
 
 class App extends Component {
   interactions = {};
@@ -10,40 +15,53 @@ class App extends Component {
   constructor() {
     super();
     this.initializeAMC();
-
+    // setAppHeight(100);
   }
 
   async initializeAMC() {
+    console.log('CRM awaiting bridgeScripts');
     await loadBridgeScripts([
-      'https://na82.salesforce.com/support/api/25.0/interaction.js',
+      'https://na132.salesforce.com/support/api/25.0/interaction.js',
       `${window.location.origin}/bridge.js`
     ]);
 
-    window.addEventListener("message", event => {
+    console.log('CRM adding event listener');
+    window.addEventListener('message', event => {
       if (event.data.from === 'SampleCrmAppBridge') {
         if (event.data.type === 'ClickToDial' && event.data.phoneNumber) {
           clickToDial(event.data.phoneNumber);
+          console.log(event.data.phoneNumber);
         }
       }
     });
 
-    window.parent.postMessage({ // initialize bridge.js
-      from: 'SampleCrmApp',
-      type: 'Initialize'
-    }, '*');
+    window.parent.postMessage(
+      {
+        // initialize bridge.js
+        from: 'SampleCrmApp',
+        type: 'Initialize'
+      },
+      '*'
+    );
 
     await registerOnInteraction(interaction => {
-      if (!this.interactions[interaction.interactionId]) { // first time seeing this interaction
+      if (!this.interactions[interaction.interactionId]) {
+        // first time seeing this interaction
         this.interactions[interaction.interactionId] = interaction; // mark that we have seen it
-        window.parent.postMessage({ // tell bridge.js to perform a screenpop
-          from: 'SampleCrmApp',
-          type: 'Screenpop',
-          phoneNumber: interaction.details.getPhone().Value
-        }, '*');
+        window.parent.postMessage(
+          {
+            // tell bridge.js to perform a screenpop
+            from: 'SampleCrmApp',
+            type: 'Screenpop',
+            phoneNumber: interaction.details.getPhone().Value
+          },
+          '*'
+        );
       }
     });
-
+    console.log('CRM awaiting initializeComplete');
     await initializeComplete();
+    console.log('CRM Initialized.');
   }
 
   render() {
