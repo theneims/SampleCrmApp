@@ -21,7 +21,7 @@ class App extends Component {
   async initializeAMC() {
     console.log('CRM awaiting bridgeScripts');
     await loadBridgeScripts([
-      'https://na132.salesforce.com/support/api/25.0/interaction.js',
+      'https://na82.salesforce.com/support/api/25.0/interaction.js',
       `${window.location.origin}/bridge.js`
     ]);
 
