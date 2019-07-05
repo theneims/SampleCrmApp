@@ -15,7 +15,7 @@ class App extends Component {
   constructor() {
     super();
     this.initializeAMC();
-    // setAppHeight(100);
+    setAppHeight(100);
   }
 
   async initializeAMC() {
@@ -59,9 +59,7 @@ class App extends Component {
         );
       }
     });
-    console.log('CRM awaiting initializeComplete');
     await initializeComplete();
-    console.log('CRM Initialized.');
   }
 
   render() {
