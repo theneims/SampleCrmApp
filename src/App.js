@@ -1,36 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   initializeComplete,
   loadBridgeScripts,
   registerOnInteraction,
-  clickToDial,
-  setAppHeight
+  clickToDial
 } from '@amc-technology/davinci-api';
 
+/**
+ * This is a React Based CRM Application Sample Template for DaVinci Creators Studio
+ * using Salesforce Lightning.
+ *
+ * @class App
+ * @extends {Component}
+ */
 class App extends Component {
   interactions = {};
 
   constructor() {
     super();
     this.initializeAMC();
-    setAppHeight(100);
   }
 
+  /**
+   * This function loads all of the bridge scripts associated with Salesforce
+   *
+   * @memberof App
+   */
   async initializeAMC() {
-    console.log('CRM awaiting bridgeScripts');
+    console.log('CRM: Loading bridgeScripts');
+    let salesforceOrg = 'https://na132.salesforce.com';
     await loadBridgeScripts([
-      'https://na82.salesforce.com/support/api/25.0/interaction.js',
-      `${window.location.origin}/bridge.js`
+      `${window.location.origin}/bridge.js`,
+      salesforceOrg + '/support/console/44.0/integration.js',
+      salesforceOrg + '/support/api/44.0/lightning/opencti_min.js'
     ]);
 
     console.log('CRM adding event listener');
     window.addEventListener('message', event => {
+      // This listens for events from the Bridge, add other events to listen to here
       if (event.data.from === 'SampleCrmAppBridge') {
+        console.log(`Caught Bridge Event`);
         if (event.data.type === 'ClickToDial' && event.data.phoneNumber) {
+          // clickToDial() sends out a call to any app listening through the DaVinci api.
           clickToDial(event.data.phoneNumber);
-          console.log(event.data.phoneNumber);
+          console.log(`CRM: Caught click to dial ${event.data.phoneNumber}`);
         }
       }
     });
@@ -44,6 +58,7 @@ class App extends Component {
       '*'
     );
 
+    // registerInteraction() handles events that are triggered by a change in an interaction.
     await registerOnInteraction(interaction => {
       if (!this.interactions[interaction.interactionId]) {
         // first time seeing this interaction
@@ -63,24 +78,7 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    return <div>CRM App</div>;
   }
 }
 
