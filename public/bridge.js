@@ -45,5 +45,22 @@ window.addEventListener('message', event => {
         defaultFieldValues: { Phone: event.data.phoneNumber }
       });
     }
+
+    if (event.data.type === 'toggleClickToDial') {
+      console.log(`Bridge: toggling click to dial`);
+      clickToDial();
+    }
   }
 });
+
+function clickToDial() {
+  sforce.opencti.enableClickToDial({
+    callback: function(result) {
+      if (result.success) {
+        console.log('Bridge: Click to dial enabled successfully.');
+      } else {
+        console.log('Bridge: Click to dial failed to enable.');
+      }
+    }
+  }); // Enables click to dial feature in salesforce.
+}

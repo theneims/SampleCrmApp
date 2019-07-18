@@ -4,7 +4,9 @@ import {
   initializeComplete,
   loadBridgeScripts,
   registerOnInteraction,
-  clickToDial
+  clickToDial,
+  getPresence,
+  registerOnPresenceChanged
 } from '@amc-technology/davinci-api';
 
 /**
@@ -16,6 +18,7 @@ import {
  */
 class App extends Component {
   interactions = {};
+  clickToDial = false;
 
   constructor() {
     super();
@@ -74,6 +77,7 @@ class App extends Component {
         );
       }
     });
+
     await initializeComplete();
   }
 
